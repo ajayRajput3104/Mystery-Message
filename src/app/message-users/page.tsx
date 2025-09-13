@@ -18,7 +18,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-function page() {
+function MessageUsers() {
   const [users, setUsers] = useState<User[]>([]);
   const [isFetching, setIsFetching] = useState(false);
   const fetchUsers = async () => {
@@ -94,4 +94,4 @@ function page() {
   );
 }
 
-export default page;
+export default MessageUsers;
