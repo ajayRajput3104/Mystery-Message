@@ -27,12 +27,18 @@ export async function DELETE(
       }
     );
   }
-
+  const userId = new mongoose.Types.ObjectId(session.user.id);
+  const messageObjectId = new mongoose.Types.ObjectId(messageId);
+  console.log("type of userId", typeof userId);
+  console.log("userId", userId);
+  console.log("type of messageObjectId", typeof messageObjectId);
+  console.log("messageObjectId", messageObjectId);
   try {
     const updatedResult = await UserModel.updateOne(
       { _id: new mongoose.Types.ObjectId(session.user.id) },
       { $pull: { messages: { _id: new mongoose.Types.ObjectId(messageId) } } }
     );
+
     if (updatedResult.modifiedCount == 0) {
       return NextResponse.json(
         {
