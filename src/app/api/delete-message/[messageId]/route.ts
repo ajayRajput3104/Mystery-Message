@@ -35,11 +35,13 @@ export async function DELETE(
   console.log("messageObjectId", messageObjectId);
   try {
     const updatedResult = await UserModel.updateOne(
-      { _id: new mongoose.Types.ObjectId(session.user.id) },
-      { $pull: { messages: { _id: new mongoose.Types.ObjectId(messageId) } } }
+      { _id: userId },
+      { $pull: { messages: { _id: messageObjectId } } }
     );
-
-    if (updatedResult.modifiedCount == 0) {
+    console.log("updatedResult", updatedResult);
+    console.log("updatedResult", updatedResult);
+    console.log("modified count", updatedResult.modifiedCount);
+    if (updatedResult.modifiedCount === 0) {
       return NextResponse.json(
         {
           success: false,
