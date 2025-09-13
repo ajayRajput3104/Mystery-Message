@@ -25,7 +25,7 @@ import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 
-function signInComponent() {
+function SignInComponent() {
   const [username, setUsername] = useState("");
   const [usernameMessage, setUsernameMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -131,4 +131,4 @@ function signInComponent() {
   );
 }
 
-export default signInComponent;
+export default SignInComponent;

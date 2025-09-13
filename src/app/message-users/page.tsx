@@ -31,7 +31,7 @@ function MessageUsers() {
     } catch (error) {
       console.error("Error fetching users", error);
       const axiosError = error as AxiosError<ApiResponse>;
-      let errorMessage = axiosError.response?.data.message;
+      const errorMessage = axiosError.response?.data.message;
       toast.error(errorMessage);
     } finally {
       setIsFetching(false);

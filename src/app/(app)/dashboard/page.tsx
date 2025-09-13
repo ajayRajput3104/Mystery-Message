@@ -14,13 +14,12 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { Loader2, RefreshCcw } from "lucide-react";
-import { User } from "next-auth";
 import { useSession } from "next-auth/react";
 import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-function dashBoardComponent() {
+function DashBoardComponent() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
@@ -190,4 +189,4 @@ function dashBoardComponent() {
   );
 }
 
-export default dashBoardComponent;
+export default DashBoardComponent;

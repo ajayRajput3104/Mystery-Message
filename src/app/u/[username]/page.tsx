@@ -1,7 +1,11 @@
 "use client";
 
 import { messageSchema } from "@/schemas/messageSchema";
-import { ApiResponse, SuggestMessagesResponse } from "@/types/ApiResponse";
+import {
+  AcceptMessagesResponse,
+  ApiResponse,
+  SuggestMessagesResponse,
+} from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { useParams } from "next/navigation";
@@ -32,7 +36,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-function sendMessage() {
+function SendMessage() {
   const params = useParams<{ username: string }>();
 
   const [isSendingMessage, setIsSendingMessage] = useState(false);
@@ -53,11 +57,13 @@ function sendMessage() {
     setIsSendingMessage(true);
     try {
       console.log("message sending started");
-      const response = await axios.get("/api/accept-messages");
+      const response = await axios.get<AcceptMessagesResponse>(
+        "/api/accept-messages"
+      );
       console.log("message sending started");
       if (response.data.isAcceptingMessages) {
         console.log("message to be sent:", data.content);
-        const res = await axios.post(`/api/send-message`, {
+        const res = await axios.post<ApiResponse>(`/api/send-message`, {
           username: params.username,
           content: data.content,
         });
@@ -68,7 +74,7 @@ function sendMessage() {
     } catch (error) {
       console.error("Error sending message", error);
       const axiosError = error as AxiosError<ApiResponse>;
-      let errorMessage = axiosError.message ?? "something unexpected occured";
+      const errorMessage = axiosError.message ?? "something unexpected occured";
       toast.error(errorMessage);
     } finally {
       setIsSendingMessage(false);
@@ -86,7 +92,9 @@ function sendMessage() {
       setSuggestedMessage(messages);
     } catch (error) {
       console.log("Error fetching message(u/username)", error);
-      toast.error("Failed  to suggest message");
+      const axiosError = error as AxiosError<ApiResponse>;
+      const errorMessage = axiosError.response?.data.message;
+      toast.error(errorMessage ?? "Failed  to suggest message");
     } finally {
       setIsSuggestingMessage(false);
     }
@@ -188,4 +196,4 @@ function sendMessage() {
   );
 }
 
-export default sendMessage;
+export default SendMessage;

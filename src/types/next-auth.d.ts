@@ -1,15 +1,17 @@
 import "next-auth";
+import { ObjectId } from "mongoose";
+import { Schema } from "mongoose";
 
 declare module "next-auth" {
   interface User {
-    _id?: string;
+    _id: string;
     isVerified?: boolean;
     isAcceptingMessages?: boolean;
     username?: string;
   }
   interface Session {
     user: {
-      _id?: string;
+      _id: string;
       isVerified?: boolean;
       isAcceptingMessages?: boolean;
       username?: string;
@@ -19,7 +21,7 @@ declare module "next-auth" {
 
 declare module "next-auth/jwt" {
   interface JWT {
-    _id?: string;
+    _id: string;
     isVerified?: boolean;
     isAcceptingMessages?: boolean;
     username?: string;
