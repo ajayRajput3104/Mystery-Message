@@ -1,8 +1,8 @@
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/models/User";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   await dbConnect();
 
   try {
@@ -40,8 +40,7 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           success: false,
-          message:
-            "Verification code has expired.Please sign-up again",
+          message: "Verification code has expired.Please sign-up again",
         },
         {
           status: 400,

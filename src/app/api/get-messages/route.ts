@@ -3,9 +3,9 @@ import { getServerSession, User } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/options";
 import UserModel from "@/models/User";
 import mongoose from "mongoose";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   await dbConnect();
   const session = await getServerSession(authOptions);
   console.log("reached api/get-messages");

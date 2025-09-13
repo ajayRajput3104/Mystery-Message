@@ -4,9 +4,9 @@ import UserModel from "@/models/User";
 import { User } from "next-auth";
 
 import { getServerSession } from "next-auth";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   await dbConnect();
   const session = await getServerSession(authOptions);
 
