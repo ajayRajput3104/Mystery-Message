@@ -38,7 +38,7 @@ export async function DELETE(
       { _id: userId },
       { $pull: { messages: { _id: messageObjectId } } }
     );
-    const user = await UserModel.findById(session.user.id);
+    const user = await UserModel.findById(userId);
     console.log("new user", user, "and messages", user?.messages);
     console.log("updatedResult", updatedResult);
     console.log("updatedResult", updatedResult);
