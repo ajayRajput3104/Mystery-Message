@@ -5,12 +5,10 @@ import { ApiResponse, SuggestMessagesResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { useParams } from "next/navigation";
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
-import { useCompletion } from "@ai-sdk/react";
 import {
   Form,
   FormControl,
