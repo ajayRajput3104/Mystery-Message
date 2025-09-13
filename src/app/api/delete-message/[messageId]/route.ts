@@ -38,6 +38,8 @@ export async function DELETE(
       { _id: userId },
       { $pull: { messages: { _id: messageObjectId } } }
     );
+    const user = await UserModel.findById(session.user.id);
+    console.log("new user", user, "and messages", user?.messages);
     console.log("updatedResult", updatedResult);
     console.log("updatedResult", updatedResult);
     console.log("modified count", updatedResult.modifiedCount);
