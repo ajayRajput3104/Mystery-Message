@@ -176,7 +176,7 @@ function DashBoardComponent() {
         {messages.length > 0 ? (
           messages.map((message, index) => (
             <MessageCard
-              key={message._id ? message._id.toString() : index}
+              key={index}
               message={message}
               onMessageDelete={handleDeleteMessage}
             />

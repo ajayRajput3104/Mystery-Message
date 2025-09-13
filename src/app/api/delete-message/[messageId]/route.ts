@@ -12,7 +12,6 @@ export async function DELETE(
   await dbConnect();
 
   const session = await getServerSession(authOptions);
-  const user: User = session?.user;
 
   if (!session || !session.user) {
     return NextResponse.json(
@@ -28,7 +27,7 @@ export async function DELETE(
 
   try {
     const updatedResult = await UserModel.updateOne(
-      { _id: user._id },
+      { _id: session.user.id },
       { $pull: { messages: { _id: messageId } } }
     );
     if (updatedResult.modifiedCount == 0) {
