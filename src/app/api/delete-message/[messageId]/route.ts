@@ -1,9 +1,10 @@
 import dbConnect from "@/lib/dbConnect";
-import UserModel from "@/models/User";
+import UserModel, { Message } from "@/models/User";
 import { getServerSession, User } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/options";
 import { NextRequest, NextResponse } from "next/server";
 import mongoose from "mongoose";
+import { Types } from "mongoose";
 
 export async function DELETE(
   request: NextRequest,
@@ -27,23 +28,25 @@ export async function DELETE(
       }
     );
   }
-  const userId = new mongoose.Types.ObjectId(session.user.id);
-  const messageObjectId = new mongoose.Types.ObjectId(messageId);
-  console.log("type of userId", typeof userId);
-  console.log("userId", userId);
-  console.log("type of messageObjectId", typeof messageObjectId);
-  console.log("messageObjectId", messageObjectId);
+
   try {
-    const updatedResult = await UserModel.updateOne(
-      { _id: userId },
-      { $pull: { messages: { _id: messageObjectId } } }
-    );
-    const user = await UserModel.findById(userId);
-    console.log("new user", user, "and messages", user?.messages);
-    console.log("updatedResult", updatedResult);
-    console.log("updatedResult", updatedResult);
-    console.log("modified count", updatedResult.modifiedCount);
-    if (updatedResult.modifiedCount === 0) {
+    console.log("user _id", session.user._id);
+    const user = await UserModel.findById(session.user._id);
+    if (!user) {
+      return NextResponse.json(
+        {
+          success: false,
+
+          message: "User not found",
+        },
+        {
+          status: 404,
+        }
+      );
+    }
+    console.log("user found", user);
+    const messageDoc = user.messages.id(messageId);
+    if (!messageDoc) {
       return NextResponse.json(
         {
           success: false,
@@ -54,6 +57,9 @@ export async function DELETE(
         }
       );
     }
+    console.log("Message to be delted(Doc)", messageDoc);
+    messageDoc.deleteOne();
+    await user.save();
     return NextResponse.json(
       {
         success: true,

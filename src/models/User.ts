@@ -28,7 +28,7 @@ export interface User extends Document {
   verifyCodeExpiry: Date;
   isVerified: boolean;
   isAcceptingMessages: boolean;
-  messages: Message[];
+  messages: mongoose.Types.DocumentArray<Message>;
 }
 
 const UserSchema: Schema<User> = new Schema({
