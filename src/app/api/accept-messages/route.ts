@@ -71,14 +71,10 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: Request) {
   await dbConnect();
-  console.log("arrived at fetch message status");
   const session = await getServerSession(authOptions);
-  console.log("session acquired", session);
   const user: User = session?.user;
-  console.log("user aquired acquired", user);
 
   if (!session || !session.user) {
-    console.log("session  or user absent");
     return NextResponse.json(
       {
         success: false,
@@ -89,15 +85,10 @@ export async function GET(request: Request) {
       }
     );
   }
-  console.log("session and user present");
   const userId = user._id;
-  console.log("userId acquired", userId);
   try {
-    console.log("real user finding");
     const currUser = await UserModel.findById(userId);
-    console.log("real user found", currUser);
     if (!currUser) {
-      console.log("real user not  found");
       return NextResponse.json(
         {
           successs: false,
@@ -108,7 +99,6 @@ export async function GET(request: Request) {
         }
       );
     }
-    console.log("real user found", currUser);
     return NextResponse.json(
       {
         successs: true,

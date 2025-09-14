@@ -26,8 +26,6 @@ import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 
 function SignInComponent() {
-  const [username, setUsername] = useState("");
-  const [usernameMessage, setUsernameMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const router = useRouter();
@@ -43,7 +41,6 @@ function SignInComponent() {
 
   const onSubmit = async (data: z.infer<typeof signinSchema>) => {
     setIsSubmitting(true);
-    console.log("started submission");
     const result = await signIn("credentials", {
       redirect: false,
       identifier: data.identifier,
@@ -51,20 +48,12 @@ function SignInComponent() {
       callbackUrl: "/dashboard",
     });
     if (result?.error) {
-      console.log("inside result.error");
       toast.error(result.error);
-    } else {
-      console.log("skipped first");
     }
-
     if (result?.url) {
-      console.log("inside result.url");
       toast.success("sign in success");
       router.replace("/dashboard");
-    } else {
-      console.log("skipped both");
     }
-    console.log("at end");
     setIsSubmitting(false);
   };
   return (

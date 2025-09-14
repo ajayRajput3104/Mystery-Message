@@ -78,12 +78,12 @@ function SignUpComponent() {
         toast.error(response.data.message);
       }
       router.replace(`/verify/${data.username}`);
-      setIsSubmitting(false);
     } catch (error) {
-      console.error("Error in signup of user", error);
+      console.error("Error signing-up user", error);
       const axiosError = error as AxiosError<ApiResponse>;
       const errorMessage = axiosError.response?.data.message;
       toast.error(errorMessage);
+    } finally {
       setIsSubmitting(false);
     }
   };

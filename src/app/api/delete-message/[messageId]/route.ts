@@ -12,8 +12,6 @@ export async function DELETE(
 ) {
   const { messageId } = await params;
   await dbConnect();
-  console.log("params:", params);
-  console.log("messageId:", messageId);
 
   const session = await getServerSession(authOptions);
 
@@ -30,7 +28,6 @@ export async function DELETE(
   }
 
   try {
-    console.log("user _id", session.user._id);
     const user = await UserModel.findById(session.user._id);
     if (!user) {
       return NextResponse.json(
@@ -44,7 +41,6 @@ export async function DELETE(
         }
       );
     }
-    console.log("user found", user);
     const messageDoc = user.messages.id(messageId);
     if (!messageDoc) {
       return NextResponse.json(
@@ -57,7 +53,6 @@ export async function DELETE(
         }
       );
     }
-    console.log("Message to be delted(Doc)", messageDoc);
     messageDoc.deleteOne();
     await user.save();
     return NextResponse.json(

@@ -22,7 +22,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Loader2 } from "lucide-react";
+import { Loader2, RefreshCcw } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import {
   Card,
@@ -105,9 +105,12 @@ function SendMessage() {
 
   return (
     <>
-      <div className="p-4">
+      <div className="flex p-4 justify-between">
         <Link href="/">
           <Button>Home</Button>
+        </Link>
+        <Link href="/dashboard">
+          <Button>Dashboard</Button>
         </Link>
       </div>
       <div className="flex flex-col items-center  min-h-screen py-10 space-y-8">
@@ -166,13 +169,19 @@ function SendMessage() {
               "Suggest Message"
             )}
           </Button>
-          <p>Click on any message below to select it</p>
         </div>
         <Card className="space-y-4 w-full max-w-xl">
           <CardHeader>
             <CardTitle className="font-bold">Messages</CardTitle>
-            <CardDescription>Card Description</CardDescription>
-            <CardAction>Card Action</CardAction>
+            <CardDescription className="text-center mt-2">
+              If you are not sure what to say ,here are some suggested message.
+              Click on any message below to select it.
+            </CardDescription>
+            <CardAction>
+              <Button onClick={handleSuggestMessage}>
+                <RefreshCcw />
+              </Button>
+            </CardAction>
           </CardHeader>
           <CardContent className="flex flex-col space-y-4">
             {suggestedMessage &&
@@ -188,7 +197,10 @@ function SendMessage() {
               ))}
           </CardContent>
           <CardFooter>
-            <p>Card Footer</p>
+            <p className="text-center">
+              You can edit before sending.These are just suggestions — feel free
+              to write your own.
+            </p>
           </CardFooter>
         </Card>
       </div>

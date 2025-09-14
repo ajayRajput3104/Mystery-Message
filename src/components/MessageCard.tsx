@@ -27,11 +27,12 @@ import { ApiResponse } from "@/types/ApiResponse";
 import axios, { AxiosError } from "axios";
 
 type MessageCardProps = {
+  index: number;
   message: Message;
   onMessageDelete: (messageId: string) => void;
 };
 
-function MessageCard({ message, onMessageDelete }: MessageCardProps) {
+function MessageCard({ index, message, onMessageDelete }: MessageCardProps) {
   const handleDeleteConfirm = async () => {
     try {
       onMessageDelete(message._id);
@@ -52,7 +53,9 @@ function MessageCard({ message, onMessageDelete }: MessageCardProps) {
       <Card className="card-bordered">
         <CardHeader className="flex justify-between items-center">
           <div>
-            <CardTitle>{/*sill to be implmented*/}Card Title</CardTitle>
+            <CardTitle>
+              {/*sill to be implmented*/}Message {index}
+            </CardTitle>
             <CardDescription>
               {new Date(message.createdAt).toLocaleString("en-US", {
                 month: "long",
@@ -93,7 +96,7 @@ function MessageCard({ message, onMessageDelete }: MessageCardProps) {
 
         <CardContent>
           <p>{message.content}</p>
-          <CardAction>Card Action</CardAction>
+          {/*<CardAction>Card Action</CardAction>*/}
         </CardContent>
 
         {/* <CardFooter>

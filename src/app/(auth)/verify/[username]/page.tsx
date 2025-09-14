@@ -40,7 +40,7 @@ function VerifyAccount() {
       toast.success(response.data.message);
       router.replace(`/sign-in`);
     } catch (error) {
-      console.error("Error in verifying user", error);
+      console.error("Error verifying user", error);
       const axiosError = error as AxiosError<ApiResponse>;
       const errorMessage = axiosError.response?.data.message;
       toast.error(errorMessage);

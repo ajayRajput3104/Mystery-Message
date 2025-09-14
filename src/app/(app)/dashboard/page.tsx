@@ -25,10 +25,7 @@ function DashBoardComponent() {
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
 
   const handleDeleteMessage = (messageId: string) => {
-    console.log("inside handleDeleteMessage:", messageId);
-    console.log("before delete nessages", messages);
     setMessages(messages.filter((message) => message._id !== messageId));
-    console.log("after delete messages:", messages);
   };
   const { data: session } = useSession();
   const form = useForm({
@@ -163,7 +160,7 @@ function DashBoardComponent() {
             type="text"
             value={profileUrl}
             disabled
-            className="input input-bordered w-full p-2 mr-2"
+            className="w-full p-2 mr-2 border border-black rounded"
           />
           <Button onClick={copyToClipboard}>Copy</Button>
         </div>
@@ -201,6 +198,7 @@ function DashBoardComponent() {
           messages.map((message, index) => (
             <MessageCard
               key={index}
+              index={index}
               message={message}
               onMessageDelete={handleDeleteMessage}
             />
