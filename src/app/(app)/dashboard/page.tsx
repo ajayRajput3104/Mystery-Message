@@ -94,16 +94,17 @@ function DashBoardComponent() {
 
   const handleSwitchChange = async () => {
     try {
+      setValue("isAcceptingMessages", !isAcceptingMessages);
       const response = await axios.post<ApiResponse>("api/accept-messages", {
         isAcceptingMessages: !isAcceptingMessages,
       });
-      setValue("isAcceptingMessages", !isAcceptingMessages);
       toast.message(response.data.message);
     } catch (error) {
+      setValue("isAcceptingMessages", isAcceptingMessages);
       const axiosError = error as AxiosError<ApiResponse>;
       toast.error(
         axiosError.response?.data.message ||
-          "Failed to update accept message status"
+          "Failed to update accept message status. Try again"
       );
     }
   };
