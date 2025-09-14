@@ -15,9 +15,9 @@ function Navbar() {
       <div className="container mx-auto flex flex-col md:flex-row items-center md:justify-between">
         {/* Logo */}
         <div className="flex-shrink-0">
-          <a href="/" className="text-xl font-bold mb-3 md:mb-0 md:order-1">
+          <Link href="/" className="text-xl font-bold mb-3 md:mb-0 md:order-1">
             Mystery Message
-          </a>
+          </Link>
         </div>
 
         <div className="flex flex-col md:flex-row md:items-center w-full md:w-auto md:order-2 md:justify-end gap-3 flex-1 mt-2">

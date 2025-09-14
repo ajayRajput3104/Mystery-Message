@@ -10,7 +10,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { ApiResponse } from "@/types/ApiResponse";
 import axios, { AxiosError } from "axios";
 import { Loader2 } from "lucide-react";

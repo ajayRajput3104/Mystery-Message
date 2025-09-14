@@ -1,15 +1,5 @@
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/models/User";
-import Link from "next/link";
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
