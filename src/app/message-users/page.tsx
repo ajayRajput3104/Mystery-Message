@@ -13,6 +13,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { ApiResponse } from "@/types/ApiResponse";
 import axios, { AxiosError } from "axios";
+import { Loader2 } from "lucide-react";
 import { User } from "next-auth";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -21,11 +22,11 @@ import { toast } from "sonner";
 function MessageUsers() {
   const [users, setUsers] = useState<User[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
-  const [isFetching, setIsFetching] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState("");
 
   const fetchUsers = async () => {
-    setIsFetching(true);
+    setIsLoading(true);
     try {
       const response = await axios.get("/api/get-users");
       if (response.data.users) {
@@ -38,12 +39,12 @@ function MessageUsers() {
       const errorMessage = axiosError.response?.data.message;
       toast.error(errorMessage);
     } finally {
-      setIsFetching(false);
+      setIsLoading(false);
     }
   };
   useEffect(() => {
     fetchUsers();
-  }, [users]);
+  }, []);
 
   useEffect(() => {
     if (!query.trim()) {
@@ -62,17 +63,20 @@ function MessageUsers() {
 
   return (
     <>
-      <div className="p-4">
+      <div className="flex flex-row space-x-2 p-5">
         <Link href="/">
-          <Button>Home</Button>
+          <Button className="h-12 px-6">Home</Button>
         </Link>
         <input
           type="text"
-          placeholder="Serch by username or email..."
+          placeholder="Search by username or email..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="w-full p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-blue-500"
+          className="h-12 w-full px-5 border rounded-lg shadow-sm focus:outline-none focus:ring-blue-500"
         />
+        <Link href="/dashboard">
+          <Button className="h-12 px-6">Dashboard</Button>
+        </Link>
       </div>
 
       <div className="container mx-auto p-10">
@@ -82,40 +86,51 @@ function MessageUsers() {
             Browse users and connect without revealing your identity.
           </p>
         </div>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {filteredUsers.map((user, index) => (
-            <Card
-              key={index}
-              className="flex flex-col justify-between bg-blue-950  text-white"
-            >
-              <CardHeader>
-                <CardTitle>{user.username}</CardTitle>
-                <CardDescription></CardDescription>
-                <CardAction>
-                  <Link href={`/u/${user.username}`}>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="text-blue-950"
-                    >
-                      Message Now
-                    </Button>
-                  </Link>
-                </CardAction>
-              </CardHeader>
-              <CardContent>Email:{user.email}</CardContent>
-              <CardFooter>
-                {user.isAcceptingMessages ? (
-                  <p className="text-sm text-muted-foreground">Available now</p>
-                ) : (
-                  <p className="text-sm text-muted-foreground">
-                    {user.username} is not Accepting messages right now
-                  </p>
-                )}
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="flex flex-col items-center justify-center">
+            <p className="mb-2">Loading users...</p>
+            <Loader2 className="h-16 w-16 animate-spin text-blue-500 border-blue-500" />
+          </div>
+        ) : filteredUsers.length > 0 ? (
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {filteredUsers.map((user, index) => (
+              <Card
+                key={index}
+                className="flex flex-col justify-between bg-blue-950  text-white"
+              >
+                <CardHeader>
+                  <CardTitle>{user.username}</CardTitle>
+                  <CardDescription></CardDescription>
+                  <CardAction>
+                    <Link href={`/u/${user.username}`}>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="text-blue-950"
+                      >
+                        Message Now
+                      </Button>
+                    </Link>
+                  </CardAction>
+                </CardHeader>
+                <CardContent>Email:{user.email}</CardContent>
+                <CardFooter>
+                  {user.isAcceptingMessages ? (
+                    <p className="text-sm text-muted-foreground">
+                      Available now
+                    </p>
+                  ) : (
+                    <p className="text-sm text-muted-foreground">
+                      {user.username} is not Accepting messages right now
+                    </p>
+                  )}
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-500">No users found.</p>
+        )}
       </div>
     </>
   );

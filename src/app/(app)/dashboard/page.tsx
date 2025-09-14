@@ -13,7 +13,7 @@ import {
 } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
-import { Loader2, RefreshCcw } from "lucide-react";
+import { Loader2, Lock, RefreshCcw } from "lucide-react";
 import { useSession } from "next-auth/react";
 import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -129,7 +129,27 @@ function DashBoardComponent() {
   };
 
   if (!session || !session.user) {
-    return <div>Plesase Login</div>;
+    return (
+      <div className="flex flex-col items-center justify-center h-[70vh] text-center space-y-4">
+        {/* Icon */}
+        <Lock className="w-16 h-16 text-gray-500" />
+
+        {/* Message */}
+        <h2 className="text-xl font-semibold text-gray-800">
+          You’re not logged in
+        </h2>
+        <p className="text-gray-600">
+          Please login to access your dashboard and connect with others.
+        </p>
+
+        {/* Login Button */}
+        <a href="/sign-in">
+          <button className="px-6 py-2 rounded-2xl bg-blue-600 text-white font-medium hover:bg-blue-700 shadow">
+            Login
+          </button>
+        </a>
+      </div>
+    );
   }
   return (
     <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
