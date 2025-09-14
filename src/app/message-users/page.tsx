@@ -20,13 +20,17 @@ import { toast } from "sonner";
 
 function MessageUsers() {
   const [users, setUsers] = useState<User[]>([]);
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [isFetching, setIsFetching] = useState(false);
+  const [query, setQuery] = useState("");
+
   const fetchUsers = async () => {
     setIsFetching(true);
     try {
       const response = await axios.get("/api/get-users");
       if (response.data.users) {
-        setUsers(response.data.users);
+        setUsers(response.data.users || []);
+        setFilteredUsers(response.data.users || []);
       }
     } catch (error) {
       console.error("Error fetching users", error);
@@ -41,13 +45,36 @@ function MessageUsers() {
     fetchUsers();
   }, [users]);
 
+  useEffect(() => {
+    if (!query.trim()) {
+      setFilteredUsers(users);
+      return;
+    }
+    const q = query.toLowerCase();
+    setFilteredUsers(
+      users.filter(
+        (user) =>
+          user.username?.toLowerCase().includes(q) ||
+          user.email?.toLowerCase().includes(q)
+      )
+    );
+  }, [users, query]);
+
   return (
     <>
       <div className="p-4">
         <Link href="/">
           <Button>Home</Button>
         </Link>
+        <input
+          type="text"
+          placeholder="Serch by username or email..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="w-full p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-blue-500"
+        />
       </div>
+
       <div className="container mx-auto p-10">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold">Message anyone , Anonymously</h1>
@@ -56,7 +83,7 @@ function MessageUsers() {
           </p>
         </div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {users.map((user, index) => (
+          {filteredUsers.map((user, index) => (
             <Card
               key={index}
               className="flex flex-col justify-between bg-blue-950  text-white"
