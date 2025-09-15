@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Mystery Message",
-  description: "Real feedack from real people",
+  description: "Real feedback from real people",
 };
 
 export default function RootLayout({
